@@ -10,24 +10,22 @@ function filter() {
             portfolioMenuItem.forEach(function (e) {
                 e.classList.remove('active');
             });
-            
-            if (e.className == 'granddad' || e.className == 'grandmother') {
-                portfolioBlock.forEach(function (elem) {
+            let classN = e.className,
+                log = 0;
+            e.classList.add('active');
+            portfolioBlock.forEach(function(elem) {
+                if (!elem.classList.contains(classN)) {
                     elem.style.display = 'none';
-                });
+                } else {
+                    log = 1;
+                    elem.style.display = '';
+                }
+            });
+            if (log == 0) {
                 portfolioNo.style.display = 'block';
             } else {
                 portfolioNo.style.display = '';
-                portfolioBlock.forEach(function (elem) {
-                    if (!elem.classList.contains(e.className)) {
-                        elem.style.display = 'none';
-                        portfolioNo.style.display = '';
-                    } else {
-                        elem.style.display = '';
-                    }
-                });
             }
-            e.classList.add('active');
         });
     });
 } 
