@@ -18,7 +18,6 @@ function feedbackSlider() {
 
         let left = 0;
         slides[slideIndex - 1].style.left = '-100%';
-        console.log(slideIndex + ' ' + preventSlide);
         if (slideIndex - preventSlide == 1 || (preventSlide == slides.length && slideIndex == 1)) {
             let sliderAnimation = setInterval(function () {
                 left = left + 10;

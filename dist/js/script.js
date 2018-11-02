@@ -96,18 +96,18 @@
 function accordion() {
   var accordionHeading = document.querySelectorAll('.accordion-heading'),
       accordionBlock = document.querySelectorAll('.accordion-block');
-  var pt = 0,
-      pb = 0,
-      h = 0;
 
   function showAccordeonSlideFunction(i) {
+    var pt = 0,
+        pb = 0,
+        h = 0;
     var p = accordionBlock[i].querySelector('p');
     var showAccordeonSlide = setInterval(function () {
       if (pt < 3) {
         pt += 0.1;
         accordionBlock[i].style.paddingTop = pt + 'rem';
       } else if (h < p.clientHeight) {
-        h = h + 3;
+        h = h + 2;
         accordionBlock[i].style.height = h + 'px';
       } else if (pb < 3) {
         pb += 0.1;
@@ -119,17 +119,22 @@ function accordion() {
   }
 
   function hideAccordeonFunction(i) {
+    var pt = 0,
+        pb = 0,
+        h = 0;
     var p = accordionBlock[i].querySelector('p');
     var hideAccordeonSlide = setInterval(function () {
-      if (pt < 3) {
+      if (3 - pt > 0) {
         pt += 0.1;
-        accordionBlock[i].style.paddingTop = 3 - pt + 'rem';
-      } else if (h < p.clientHeight) {
-        h = h + 3;
-        accordionBlock[i].style.height = p.clientHeight - h + 'px';
-      } else if (pb < 3) {
+        accordionBlock[i].style.paddingTop = (3 - pt).toFixed(1) + 'rem';
+        console.log((3 - pt).toFixed(1));
+      } else if (p.clientHeight - h > 0) {
+        h = h + 2;
+        accordionBlock[i].style.height = Math.round(p.clientHeight - h) + 'px';
+        console.log(Math.round(p.clientHeight - h));
+      } else if (3 - pb > 0) {
         pb += 0.1;
-        accordionBlock[i].style.paddingBottom = 3 - pb + 'rem';
+        accordionBlock[i].style.paddingBottom = (3 - pb).toFixed(1) + 'rem';
       } else {
         clearInterval(hideAccordeonSlide);
       }
@@ -137,25 +142,27 @@ function accordion() {
   }
 
   accordionHeading.forEach(function (e, i) {
-    e.classList.remove('ui-accordion-header-active');
     e.addEventListener('click', function () {
-      e.classList.add('ui-accordion-header-active');
-      accordionBlock.forEach(function (elem, j) {
-        pt = 0;
-        pb = 0;
-        h = 0;
-
-        if (i == j && elem[j].classList.contains('accordion-slide-active')) {
-          return;
-        } else {
-          if (elem[j].classList.contains('accordion-slide-active')) {
-            hideAccordeonFunction(j);
-            showAccordeonSlideFunction(i);
-            elem[j].classList.remove('accordion-slide-active');
-            e[i].classList.add('accordion-slide-active');
-          }
-        }
+      accordionHeading.forEach(function (e) {
+        e.classList.remove('ui-accordion-header-active');
       });
+      e.classList.add('ui-accordion-header-active');
+
+      if (!accordionBlock[i].classList.contains('accordion-block-active')) {
+        console.log(1);
+        accordionBlock.forEach(function (elem, j) {
+          if (elem.classList.contains('accordion-block-active')) {
+            elem.classList.remove('accordion-block-active');
+            hideAccordeonFunction(j);
+          }
+
+          if (j == accordionBlock.length - 1) {
+            console.log(2);
+            accordionBlock[i].classList.add('accordion-block-active');
+            showAccordeonSlideFunction(i);
+          }
+        });
+      }
     });
   });
 }
@@ -260,7 +267,6 @@ function feedbackSlider() {
 
     var left = 0;
     slides[slideIndex - 1].style.left = '-100%';
-    console.log(slideIndex + ' ' + preventSlide);
 
     if (slideIndex - preventSlide == 1 || preventSlide == slides.length && slideIndex == 1) {
       var sliderAnimation = setInterval(function () {
