@@ -1,26 +1,22 @@
 function forms() {
-    function sendForm(classForm) {
-        let form = document.querySelector(classForm),
+    function sendForm(e) {
+        let form = e,
             statusMessage = document.createElement('div');
+        statusMessage.classList.add('status-message');
 
         form.addEventListener('submit', function (event) {
             event.preventDefault();
-            form.appendChild(statusMessage);
-
+            
             function postData() {
                 return new Promise(function (resolve, reject) {
                     let request = new XMLHttpRequest(); // создаем запрос к серверу
                     request.open('POST', 'server.php'); // выставляем настройки запроса
-                    request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+                    request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 
                     let formData = new FormData(form); //получаем все данные с формы
-                    let obj = {}; // создаем объект для формата JSON
-                    for (let i = 0; i < formData.length; i++) {
-                        obj[formData[i].getAttribute('name')] = formData[i].value;
-                    }
-
                     request.send(formData); // отправляем данные на сервер
-
+                    form.innerHTML = '';
+                    form.appendChild(statusMessage);
                     request.addEventListener('readystatechange', function () { // смотрим состояние запроса
                         if (request.readyState < 4) {
                             resolve();
@@ -40,20 +36,22 @@ function forms() {
             // }
             postData()
                 .then(() => {
-                    statusMessage.innerHTML = '<img src=\"img/ajax-loader.gif\">';
+                    statusMessage.innerHTML = '<p>Идет отправка</p>';
                 })
                 .then(() => {
-                    statusMessage.innerHTML = '<img src=\"img/check.svg\">';
+                    statusMessage.innerHTML = '<p>Ваш запрос отправлен.<br>Наши менеджеры свжутся с вами.</p>';
                 })
                 .catch(() => {
-                    statusMessage.innerHTML = '<img src=\"img/warning.svg\">';
+                    statusMessage.innerHTML = '<p>Произошла ошибка</p>';
                 });
         });
     }
-    sendForm('.calculator-form-wrap');
-    sendForm('.form-container-wrap');
-    sendForm('.main-form');
-    sendForm('.popup-design-form-wrap');
+    let form = document.querySelectorAll('form');
+    form.forEach(function(e) {
+        if (!e.classList.contains('calculator-form')) {
+            sendForm(e);
+        }
+    });
 
 }
 

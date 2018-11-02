@@ -10,8 +10,9 @@ window.addEventListener('DOMContentLoaded', function() {
         sizesBlock = require('./parts/sizesBlock.js'),
         feedbackSlider = require('./parts/feedbackSlider.js'),
         accordion = require('./parts/accordion.js'),
-        burger = require('./parts/burger.js');
-        //forms = require('./parts/forms.js');
+        burger = require('./parts/burger.js'),
+        forms = require('./parts/forms.js'),
+        masks = require('./parts/masks.js');
 
     mainSlider();
     modalOrder();
@@ -24,6 +25,6 @@ window.addEventListener('DOMContentLoaded', function() {
     feedbackSlider();
     accordion();
     burger();
-
-    //forms();
+    forms();
+    masks();
 });

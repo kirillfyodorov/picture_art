@@ -25,15 +25,12 @@ function calsulator() {
     function pricingChange() {
         if (size.options.selectedIndex > 0 && material.options.selectedIndex > 0) {
             let price = sizePrices[size.options.selectedIndex] + materialPrices[material.options.selectedIndex];
-            console.log(price);
             if (options.options.selectedIndex > 0) {
                 price = price + optionsPrices[options.options.selectedIndex];
             }
-            console.log(price);
             if (promocode.value == 'IWANTPOPART') {
                 price = price * 0.7;
             }
-            console.log(price);
             priceInput.textContent = price;
         } else {
             priceInput.textContent = 'Для расчета нужно выбрать размер картины и материал картины';

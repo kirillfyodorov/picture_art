@@ -403,6 +403,75 @@ module.exports = filter;
 
 /***/ }),
 
+/***/ "./src/js/parts/forms.js":
+/*!*******************************!*\
+  !*** ./src/js/parts/forms.js ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function forms() {
+  function sendForm(e) {
+    var form = e,
+        statusMessage = document.createElement('div');
+    statusMessage.classList.add('status-message');
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      function postData() {
+        return new Promise(function (resolve, reject) {
+          var request = new XMLHttpRequest(); // создаем запрос к серверу
+
+          request.open('POST', 'server.php'); // выставляем настройки запроса
+
+          request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+          var formData = new FormData(form); //получаем все данные с формы
+
+          request.send(formData); // отправляем данные на сервер
+
+          console.log(formData);
+          form.innerHTML = '';
+          form.appendChild(statusMessage);
+          request.addEventListener('readystatechange', function () {
+            // смотрим состояние запроса
+            if (request.readyState < 4) {
+              resolve();
+            } else if (request.readyState == 4 && request.status == 200) {
+              resolve();
+            } else {
+              reject();
+            }
+          });
+        });
+      } // function clearInput() {
+      //     for (let i = 0; i < input.length; i++) {
+      //         input[i].value = '';
+      //     }
+      // }
+
+
+      postData().then(function () {
+        statusMessage.innerHTML = '<p>Идет отправка</p>';
+      }).then(function () {
+        statusMessage.innerHTML = '<p>Ваш запрос отправлен.<br>Наши менеджеры свжутся с вами.</p>';
+      }).catch(function () {
+        statusMessage.innerHTML = '<p>Произошла ошибка</p>';
+      });
+    });
+  }
+
+  var form = document.querySelectorAll('form');
+  form.forEach(function (e) {
+    if (!e.classList.contains('calculator-form')) {
+      sendForm(e);
+    }
+  });
+}
+
+module.exports = forms;
+
+/***/ }),
+
 /***/ "./src/js/parts/gift.js":
 /*!******************************!*\
   !*** ./src/js/parts/gift.js ***!
@@ -509,6 +578,64 @@ function mainSlider() {
 }
 
 module.exports = mainSlider;
+
+/***/ }),
+
+/***/ "./src/js/parts/masks.js":
+/*!*******************************!*\
+  !*** ./src/js/parts/masks.js ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function masks() {
+  var inputs = document.querySelectorAll('input'),
+      textArea = document.querySelector('textarea');
+  textArea.addEventListener('input', function (e) {
+    e.target.value = e.target.value.replace(/[^а-яё]/ig, '');
+  });
+  inputs.forEach(function (e) {
+    if (e.getAttribute('name') == 'name' || e.getAttribute('name') == 'message') {
+      e.addEventListener('input', function () {
+        e.value = e.value.replace(/[^а-яё]/ig, '');
+      });
+    }
+
+    if (e.getAttribute('name') == 'phone') {
+      var input = e,
+          startL;
+      input.addEventListener('input', function (e) {
+        input.value = input.value.replace('+7 (', '');
+        input.value = input.value.replace(') ', '');
+        input.value = input.value.replace(')', '');
+        input.value = input.value.replace('-', '');
+        var s = input.value.slice(-1);
+        var sn = +s;
+
+        if (isNaN(sn) || s.charCodeAt(0) === 32) {
+          input.value = input.value.slice(0, input.value.length - 1);
+        } else if (e.data == null && startL == 3) {
+          input.value = input.value.slice(0, input.value.length - 1);
+        }
+
+        startL = input.value.length;
+
+        if (input.value.length < 3) {
+          input.value = "+7 (".concat(input.value.slice(0, 3), ")");
+          input.setSelectionRange(input.value.length - 1, input.value.length - 1);
+        } else if (input.value.length == 3) {
+          input.value = "+7 (".concat(input.value.slice(0, 3), ")");
+        } else if (input.value.length > 3 && input.value.length < 7) {
+          input.value = "+7 (".concat(input.value.slice(0, 3), ") ").concat(input.value.slice(3, 6));
+        } else if (input.value.length > 6) {
+          input.value = "+7 (".concat(input.value.slice(0, 3), ") ").concat(input.value.slice(3, 6), "-").concat(input.value.slice(6, 10));
+        }
+      });
+    }
+  });
+}
+
+module.exports = masks;
 
 /***/ }),
 
@@ -709,8 +836,9 @@ window.addEventListener('DOMContentLoaded', function () {
       sizesBlock = __webpack_require__(/*! ./parts/sizesBlock.js */ "./src/js/parts/sizesBlock.js"),
       feedbackSlider = __webpack_require__(/*! ./parts/feedbackSlider.js */ "./src/js/parts/feedbackSlider.js"),
       accordion = __webpack_require__(/*! ./parts/accordion.js */ "./src/js/parts/accordion.js"),
-      burger = __webpack_require__(/*! ./parts/burger.js */ "./src/js/parts/burger.js"); //forms = require('./parts/forms.js');
-
+      burger = __webpack_require__(/*! ./parts/burger.js */ "./src/js/parts/burger.js"),
+      forms = __webpack_require__(/*! ./parts/forms.js */ "./src/js/parts/forms.js"),
+      masks = __webpack_require__(/*! ./parts/masks.js */ "./src/js/parts/masks.js");
 
   mainSlider();
   modalOrder();
@@ -722,7 +850,9 @@ window.addEventListener('DOMContentLoaded', function () {
   sizesBlock();
   feedbackSlider();
   accordion();
-  burger(); //forms();
+  burger();
+  forms();
+  masks();
 });
 
 /***/ })

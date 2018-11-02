@@ -1076,6 +1076,11 @@ h4 {
   width: 100%;
   margin-bottom: 2rem;
 }
+.status-message {
+  color: rgba(178, 80, 188, 0.8);
+  font-size: 21px;
+  text-align: center;
+}
 .popup-consultation .form {
   margin: 0;
   padding-top: 0;
