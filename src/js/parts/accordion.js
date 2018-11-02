@@ -69,7 +69,10 @@ function accordion() {
                         showAccordeonSlideFunction(i);
                     }
                 });
-            } 
+            } else {
+                accordionBlock[i].classList.remove('accordion-block-active');
+                hideAccordeonFunction(i);
+            }
         });
     });
     
