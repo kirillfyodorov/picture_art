@@ -171,6 +171,48 @@ module.exports = accordion;
 
 /***/ }),
 
+/***/ "./src/js/parts/burger.js":
+/*!********************************!*\
+  !*** ./src/js/parts/burger.js ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function burger() {
+  var btnBurger = document.querySelector('.burger'),
+      menuBurger = document.querySelector('.burger-menu'),
+      width = document.documentElement.clientWidth,
+      logOpen = 0;
+
+  function showBurger() {
+    if (logOpen == 0) {
+      menuBurger.style.display = 'block';
+      logOpen = 1;
+    } else {
+      menuBurger.style.display = '';
+      logOpen = 0;
+    }
+  }
+
+  function isWidth() {
+    if (width < 992) {
+      btnBurger.addEventListener('click', showBurger);
+    } else {
+      btnBurger.removeEventListener('click', showBurger);
+    }
+  }
+
+  isWidth();
+  window.addEventListener('resize', function () {
+    width = document.documentElement.clientWidth;
+    isWidth();
+  });
+}
+
+module.exports = burger;
+
+/***/ }),
+
 /***/ "./src/js/parts/calsulator.js":
 /*!************************************!*\
   !*** ./src/js/parts/calsulator.js ***!
@@ -644,19 +686,6 @@ module.exports = sizesBlock;
 
 /***/ }),
 
-/***/ "./src/js/parts/timeOnPage.js":
-/*!************************************!*\
-  !*** ./src/js/parts/timeOnPage.js ***!
-  \************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-function timeOnPage() {}
-
-module.exports = timeOnPage;
-
-/***/ }),
-
 /***/ "./src/js/script.js":
 /*!**************************!*\
   !*** ./src/js/script.js ***!
@@ -677,7 +706,7 @@ window.addEventListener('DOMContentLoaded', function () {
       sizesBlock = __webpack_require__(/*! ./parts/sizesBlock.js */ "./src/js/parts/sizesBlock.js"),
       feedbackSlider = __webpack_require__(/*! ./parts/feedbackSlider.js */ "./src/js/parts/feedbackSlider.js"),
       accordion = __webpack_require__(/*! ./parts/accordion.js */ "./src/js/parts/accordion.js"),
-      timeOnPage = __webpack_require__(/*! ./parts/timeOnPage.js */ "./src/js/parts/timeOnPage.js"); //forms = require('./parts/forms.js');
+      burger = __webpack_require__(/*! ./parts/burger.js */ "./src/js/parts/burger.js"); //forms = require('./parts/forms.js');
 
 
   mainSlider();
@@ -690,7 +719,7 @@ window.addEventListener('DOMContentLoaded', function () {
   sizesBlock();
   feedbackSlider();
   accordion();
-  timeOnPage(); //forms();
+  burger(); //forms();
 });
 
 /***/ })

@@ -9,7 +9,8 @@ window.addEventListener('DOMContentLoaded', function() {
         calsulator = require('./parts/calsulator.js'),
         sizesBlock = require('./parts/sizesBlock.js'),
         feedbackSlider = require('./parts/feedbackSlider.js'),
-        accordion = require('./parts/accordion.js');
+        accordion = require('./parts/accordion.js'),
+        burger = require('./parts/burger.js');
         //forms = require('./parts/forms.js');
 
     mainSlider();
@@ -22,6 +23,7 @@ window.addEventListener('DOMContentLoaded', function() {
     sizesBlock();
     feedbackSlider();
     accordion();
+    burger();
 
     //forms();
 });
