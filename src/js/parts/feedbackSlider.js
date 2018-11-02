@@ -18,34 +18,26 @@ function feedbackSlider() {
 
         let left = 0;
         slides[slideIndex - 1].style.left = '-100%';
-        if (slideIndex - preventSlide == 1 || (preventSlide == slides.length && slideIndex == 1)) {
-            let sliderAnimation = setInterval(function () {
-                left = left + 10;
+        let sliderAnimation = setInterval(function () {
+            left = left + 10;
+            if (slideIndex - preventSlide == 1 || (preventSlide == slides.length && slideIndex == 1)) {
                 if (preventSlide == slides.length) {
                     slides[slides.length - 1].style.left = left + 'px';
                 } else {
                     slides[slideIndex - 2].style.left = left + 'px';
                 }
-
                 slides[slideIndex - 1].style.left = -width + left + 'px';
-                if (left >= width) {
-                    preventSlide = slideIndex;
-                    clearInterval(sliderAnimation);
-                }
-            }, 3);
-        } else {
-            let sliderAnimation = setInterval(function () {
-                left = left + 10;
+            } else {
                 slides[preventSlide - 1].style.left = -left + 'px';
 
                 slides[slideIndex - 1].style.left = width - left + 'px';
-                if (left >= width) {
-                    preventSlide = slideIndex;
-                    clearInterval(sliderAnimation);
-                }
-            }, 3);
-        }
-        
+            }
+            
+            if (left >= width) {
+                preventSlide = slideIndex;
+                clearInterval(sliderAnimation);
+            }
+        }, 3);
     }
 
     function plusSlides(n) {
