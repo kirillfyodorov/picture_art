@@ -380,6 +380,13 @@ function gift() {
   function showGift() {
     btnGift.remove();
     popupGift.style.display = 'block';
+    document.querySelector('body').style.overflow = 'hidden';
+    logFullScroll = 1;
+  }
+
+  function hideGift() {
+    popupGift.style.display = '';
+    document.querySelector('body').style.overflow = '';
   }
 
   btnGift.addEventListener('click', function () {
@@ -387,11 +394,11 @@ function gift() {
   });
   popupGift.addEventListener('click', function (e) {
     if (e.currentTarget == e.target) {
-      popupGift.style.display = '';
+      hideGift();
     }
   });
   btnClose.addEventListener('click', function () {
-    popupGift.style.display = '';
+    hideGift();
   });
   window.addEventListener('scroll', function () {
     if (logFullScroll == 0 && window.scrollY >= document.documentElement.scrollHeight - document.documentElement.clientHeight) {
@@ -471,18 +478,29 @@ function modalOrder() {
   var btnOrder = document.querySelectorAll('.button-design'),
       popupDesign = document.querySelector('.popup-design'),
       popupClose = popupDesign.querySelector('.popup-close');
+
+  function showOrder() {
+    popupDesign.style.display = 'block';
+    document.querySelector('body').style.overflow = 'hidden';
+  }
+
+  function hideOrder() {
+    popupDesign.style.display = '';
+    document.querySelector('body').style.overflow = '';
+  }
+
   btnOrder.forEach(function (e) {
     e.addEventListener('click', function () {
-      popupDesign.style.display = 'block';
+      showOrder();
     });
   });
   popupDesign.addEventListener('click', function (e) {
     if (e.currentTarget == e.target) {
-      popupDesign.style.display = '';
+      hideOrder();
     }
   });
   popupClose.addEventListener('click', function () {
-    popupDesign.style.display = '';
+    hideOrder();
   });
 }
 
@@ -501,19 +519,43 @@ function modalConsultation() {
   var btnConsultation = document.querySelectorAll('.button-consultation'),
       popupConsultation = document.querySelector('.popup-consultation'),
       popupClose = popupConsultation.querySelector('.popup-close');
+  var startTime = new Date();
+
+  function showConsultation() {
+    popupConsultation.style.display = 'block';
+    document.querySelector('body').style.overflow = 'hidden';
+  }
+
+  function hideConsultation() {
+    popupConsultation.style.display = '';
+    document.querySelector('body').style.overflow = '';
+  }
+
   btnConsultation.forEach(function (e) {
     e.addEventListener('click', function () {
-      popupConsultation.style.display = 'block';
+      showConsultation();
     });
   });
   popupConsultation.addEventListener('click', function (e) {
     if (e.currentTarget == e.target) {
-      popupConsultation.style.display = '';
+      hideConsultation();
     }
   });
   popupClose.addEventListener('click', function () {
-    popupConsultation.style.display = '';
+    hideConsultation();
   });
+  var userTimer = setInterval(function () {
+    var time = Math.round((new Date() - startTime) / 1000);
+
+    if (time > 60 && time < 62) {
+      if (document.querySelector('body').style.overflow == '' || !document.querySelector('body').hasAttribute('style')) {
+        showConsultation();
+        clearInterval(userTimer);
+      } else {
+        clearInterval(userTimer);
+      }
+    }
+  }, 1000);
 }
 
 module.exports = modalConsultation;
@@ -602,6 +644,19 @@ module.exports = sizesBlock;
 
 /***/ }),
 
+/***/ "./src/js/parts/timeOnPage.js":
+/*!************************************!*\
+  !*** ./src/js/parts/timeOnPage.js ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function timeOnPage() {}
+
+module.exports = timeOnPage;
+
+/***/ }),
+
 /***/ "./src/js/script.js":
 /*!**************************!*\
   !*** ./src/js/script.js ***!
@@ -621,7 +676,8 @@ window.addEventListener('DOMContentLoaded', function () {
       calsulator = __webpack_require__(/*! ./parts/calsulator.js */ "./src/js/parts/calsulator.js"),
       sizesBlock = __webpack_require__(/*! ./parts/sizesBlock.js */ "./src/js/parts/sizesBlock.js"),
       feedbackSlider = __webpack_require__(/*! ./parts/feedbackSlider.js */ "./src/js/parts/feedbackSlider.js"),
-      accordion = __webpack_require__(/*! ./parts/accordion.js */ "./src/js/parts/accordion.js"); //forms = require('./parts/forms.js');
+      accordion = __webpack_require__(/*! ./parts/accordion.js */ "./src/js/parts/accordion.js"),
+      timeOnPage = __webpack_require__(/*! ./parts/timeOnPage.js */ "./src/js/parts/timeOnPage.js"); //forms = require('./parts/forms.js');
 
 
   mainSlider();
@@ -633,7 +689,8 @@ window.addEventListener('DOMContentLoaded', function () {
   calsulator();
   sizesBlock();
   feedbackSlider();
-  accordion(); //forms();
+  accordion();
+  timeOnPage(); //forms();
 });
 
 /***/ })

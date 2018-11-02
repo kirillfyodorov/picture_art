@@ -22,5 +22,6 @@ window.addEventListener('DOMContentLoaded', function() {
     sizesBlock();
     feedbackSlider();
     accordion();
+
     //forms();
 });

@@ -3,19 +3,29 @@ function modalOrder() {
         popupDesign = document.querySelector('.popup-design'),
         popupClose = popupDesign.querySelector('.popup-close');
 
+    function showOrder() {
+        popupDesign.style.display = 'block';
+        document.querySelector('body').style.overflow = 'hidden';
+    }
+
+    function hideOrder() {
+        popupDesign.style.display = '';
+        document.querySelector('body').style.overflow = '';
+    }
+
     btnOrder.forEach(function(e) {
         e.addEventListener('click', function () {
-            popupDesign.style.display = 'block';
+            showOrder();
         });
     });
     popupDesign.addEventListener('click', function(e) {
         if (e.currentTarget == e.target) {
-            popupDesign.style.display = '';
+            hideOrder();
         }
     });
 
     popupClose.addEventListener('click', function () {
-        popupDesign.style.display = '';
+        hideOrder();
     });
 }
 

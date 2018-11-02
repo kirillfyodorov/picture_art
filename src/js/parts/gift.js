@@ -15,17 +15,24 @@ function gift() {
     function showGift() {
         btnGift.remove();
         popupGift.style.display = 'block';
+        document.querySelector('body').style.overflow = 'hidden';
+        logFullScroll = 1;
     }
+    function hideGift() {
+        popupGift.style.display = '';
+        document.querySelector('body').style.overflow = '';
+    }
+    
     btnGift.addEventListener('click', function() {
         showGift();
     });
     popupGift.addEventListener('click', function (e) {
         if (e.currentTarget == e.target) {
-            popupGift.style.display = '';
+            hideGift();
         }
     });
     btnClose.addEventListener('click', function() {
-        popupGift.style.display = '';
+        hideGift();
     });
 
     window.addEventListener('scroll', () => {
