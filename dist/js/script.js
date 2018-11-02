@@ -542,45 +542,43 @@ module.exports = moreStyles;
 function sizesBlock() {
   var blockSizes = document.querySelectorAll('.sizes-block');
 
-  if (document.documentElement.clientWidth > 768) {
-    blockSizes.forEach(function (e, i) {
-      var p = e.querySelectorAll('p');
-      e.addEventListener('mouseover', function () {
-        e.querySelector('img').setAttribute('src', "img/sizes-".concat(i + 1, "-1.png"));
-        p.forEach(function (e) {
-          if (e.className != 'sizes-hit') {
-            e.style.display = 'none';
-          }
-        });
-      });
-      e.addEventListener('mouseout', function () {
-        e.querySelector('img').setAttribute('src', "img/sizes-".concat(i + 1, ".png"));
-        p.forEach(function (e) {
-          e.style.display = '';
-        });
-      });
-    });
-  } else {
-    blockSizes.forEach(function (e, i) {
-      var p = e.querySelectorAll('p'),
-          img = e.querySelector('img');
-      window.addEventListener('touchstart', function (elem) {
-        if (elem.target == p[0] || elem.target == p[1] || elem.target == p[2] || elem.target == p[3] || elem.target == img) {
-          img.setAttribute('src', "img/sizes-".concat(i + 1, "-1.png"));
-          p.forEach(function (e) {
-            if (e.className != 'sizes-hit') {
-              e.style.display = 'none';
-            }
-          });
-        } else {
-          img.setAttribute('src', "img/sizes-".concat(i + 1, ".png"));
-          p.forEach(function (e) {
-            e.style.display = '';
-          });
-        }
-      });
+  function showSize(p, img, i) {
+    img.setAttribute('src', "img/sizes-".concat(i + 1, "-1.png"));
+    p.forEach(function (e) {
+      if (e.className != 'sizes-hit') {
+        e.style.display = 'none';
+      }
     });
   }
+
+  function hideSize(p, img, i) {
+    img.setAttribute('src', "img/sizes-".concat(i + 1, ".png"));
+    p.forEach(function (e) {
+      e.style.display = '';
+    });
+  }
+
+  blockSizes.forEach(function (e, i) {
+    var p = e.querySelectorAll('p'),
+        img = e.querySelector('img');
+    e.addEventListener('mouseover', function () {
+      showSize(p, img, i);
+    });
+    e.addEventListener('mouseout', function () {
+      hideSize(p, img, i);
+    });
+  });
+  blockSizes.forEach(function (e, i) {
+    var p = e.querySelectorAll('p'),
+        img = e.querySelector('img');
+    window.addEventListener('touchstart', function (elem) {
+      if (elem.target == p[0] || elem.target == p[1] || elem.target == p[2] || elem.target == p[3] || elem.target == img) {
+        showSize(p, img, i);
+      } else {
+        hideSize(p, img, i);
+      }
+    });
+  });
 }
 
 module.exports = sizesBlock;
