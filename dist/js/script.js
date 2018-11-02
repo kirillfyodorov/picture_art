@@ -127,11 +127,9 @@ function accordion() {
       if (3 - pt > 0) {
         pt += 0.1;
         accordionBlock[i].style.paddingTop = (3 - pt).toFixed(1) + 'rem';
-        console.log((3 - pt).toFixed(1));
       } else if (p.clientHeight - h > 0) {
         h = h + 2;
         accordionBlock[i].style.height = Math.round(p.clientHeight - h) + 'px';
-        console.log(Math.round(p.clientHeight - h));
       } else if (3 - pb > 0) {
         pb += 0.1;
         accordionBlock[i].style.paddingBottom = (3 - pb).toFixed(1) + 'rem';
@@ -149,7 +147,6 @@ function accordion() {
       e.classList.add('ui-accordion-header-active');
 
       if (!accordionBlock[i].classList.contains('accordion-block-active')) {
-        console.log(1);
         accordionBlock.forEach(function (elem, j) {
           if (elem.classList.contains('accordion-block-active')) {
             elem.classList.remove('accordion-block-active');
@@ -157,7 +154,6 @@ function accordion() {
           }
 
           if (j == accordionBlock.length - 1) {
-            console.log(2);
             accordionBlock[i].classList.add('accordion-block-active');
             showAccordeonSlideFunction(i);
           }
@@ -249,19 +245,15 @@ function calsulator() {
   function pricingChange() {
     if (size.options.selectedIndex > 0 && material.options.selectedIndex > 0) {
       var price = sizePrices[size.options.selectedIndex] + materialPrices[material.options.selectedIndex];
-      console.log(price);
 
       if (options.options.selectedIndex > 0) {
         price = price + optionsPrices[options.options.selectedIndex];
       }
 
-      console.log(price);
-
       if (promocode.value == 'IWANTPOPART') {
         price = price * 0.7;
       }
 
-      console.log(price);
       priceInput.textContent = price;
     } else {
       priceInput.textContent = 'Для расчета нужно выбрать размер картины и материал картины';
@@ -417,6 +409,7 @@ function forms() {
     statusMessage.classList.add('status-message');
     form.addEventListener('submit', function (event) {
       event.preventDefault();
+      var tel = form.querySelector('input[name=phone]');
 
       function postData() {
         return new Promise(function (resolve, reject) {
@@ -429,7 +422,6 @@ function forms() {
 
           request.send(formData); // отправляем данные на сервер
 
-          console.log(formData);
           form.innerHTML = '';
           form.appendChild(statusMessage);
           request.addEventListener('readystatechange', function () {
@@ -450,13 +442,18 @@ function forms() {
       // }
 
 
-      postData().then(function () {
-        statusMessage.innerHTML = '<p>Идет отправка</p>';
-      }).then(function () {
-        statusMessage.innerHTML = '<p>Ваш запрос отправлен.<br>Наши менеджеры свжутся с вами.</p>';
-      }).catch(function () {
-        statusMessage.innerHTML = '<p>Произошла ошибка</p>';
-      });
+      if (tel.value.length != 17) {
+        tel.style.border = '2px solid red';
+      } else {
+        tel.style.border = '';
+        postData().then(function () {
+          statusMessage.innerHTML = '<p>Идет отправка</p>';
+        }).then(function () {
+          statusMessage.innerHTML = '<p>Ваш запрос отправлен.<br>Наши менеджеры свжутся с вами.</p>';
+        }).catch(function () {
+          statusMessage.innerHTML = '<p>Произошла ошибка</p>';
+        });
+      }
     });
   }
 

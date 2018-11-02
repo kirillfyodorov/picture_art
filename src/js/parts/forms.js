@@ -6,8 +6,10 @@ function forms() {
 
         form.addEventListener('submit', function (event) {
             event.preventDefault();
-            
+            let tel = form.querySelector('input[name=phone]');
+
             function postData() {
+                
                 return new Promise(function (resolve, reject) {
                     let request = new XMLHttpRequest(); // создаем запрос к серверу
                     request.open('POST', 'server.php'); // выставляем настройки запроса
@@ -34,16 +36,21 @@ function forms() {
             //         input[i].value = '';
             //     }
             // }
-            postData()
-                .then(() => {
-                    statusMessage.innerHTML = '<p>Идет отправка</p>';
-                })
-                .then(() => {
-                    statusMessage.innerHTML = '<p>Ваш запрос отправлен.<br>Наши менеджеры свжутся с вами.</p>';
-                })
-                .catch(() => {
-                    statusMessage.innerHTML = '<p>Произошла ошибка</p>';
-                });
+            if (tel.value.length != 17) {
+                tel.style.border = '2px solid red';
+            } else {
+                tel.style.border = '';
+                postData()
+                    .then(() => {
+                        statusMessage.innerHTML = '<p>Идет отправка</p>';
+                    })
+                    .then(() => {
+                        statusMessage.innerHTML = '<p>Ваш запрос отправлен.<br>Наши менеджеры свжутся с вами.</p>';
+                    })
+                    .catch(() => {
+                        statusMessage.innerHTML = '<p>Произошла ошибка</p>';
+                    });
+            }
         });
     }
     let form = document.querySelectorAll('form');
