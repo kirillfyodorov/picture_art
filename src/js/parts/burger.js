@@ -17,6 +17,8 @@ function burger() {
         if (width < 992) {
             btnBurger.addEventListener('click', showBurger);
         } else {
+            menuBurger.style.display = '';
+            logOpen = 0;
             btnBurger.removeEventListener('click', showBurger);
         }
     }
