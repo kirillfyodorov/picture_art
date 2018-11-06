@@ -1081,13 +1081,13 @@ h4 {
   font-size: 21px;
   text-align: center;
 }
-.popup-consultation .form {
+.popup-consultation .popup-consultation-form {
   margin: 0;
   padding-top: 0;
   padding-bottom: 0;
 }
-.popup-consultation .form input,
-.popup-consultation .form textarea {
+.popup-consultation .popup-consultation-form input,
+.popup-consultation .popup-consultation-form textarea {
   border: none;
   border-radius: 50px;
   background-color: #ffffff;
@@ -1097,8 +1097,8 @@ h4 {
   color: inherit;
   resize: none;
 }
-.popup-consultation .form input::placeholder,
-.popup-consultation .form textarea::placeholder {
+.popup-consultation .popup-consultation-form input::placeholder,
+.popup-consultation .popup-consultation-form textarea::placeholder {
   color: black;
   text-align: center;
   font-family: 'Circe Bold', sans-serif;

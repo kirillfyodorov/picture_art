@@ -9,7 +9,7 @@ function masks() {
     inputs.forEach(function(e) {
         if (e.getAttribute('name') == 'name' || e.getAttribute('name') == 'message') {
             e.addEventListener('input', () => {
-                e.value = e.value.replace(/[^а-яё]/ig, '');
+                e.value = e.value.replace(/[^а-яё0-9 ,.\-:"()!?/%*]/ig, '');
             });
         }
         if (e.getAttribute('name') == 'phone') {
