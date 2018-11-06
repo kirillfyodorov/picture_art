@@ -464,10 +464,9 @@ function forms() {
             clearInput();
 
             if (form.className.indexOf('popup') != -1) {
-              console.log(1);
               var popupClass = document.querySelector('.' + form.className.slice(0, -5));
-              console.log(1);
               popupClass.style.display = 'none';
+              document.querySelector('body').style.overflow = '';
             }
 
             clearInterval(closeFormTimer);
